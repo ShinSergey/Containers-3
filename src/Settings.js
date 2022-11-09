@@ -1,23 +1,25 @@
-const DefSet = new Map([['theme', 'dark'], ['music', 'trance'], ['difficulty', 'easy']]);
-
 export default class Settings {
-  constructor(theme, music, difficulty) {
-    this.theme = theme;
-    this.music = music;
-    this.difficulty = difficulty;
-    this.SetOptions = {
-      theme: ['dark', 'light', 'gray'],
-      music: ['trance', 'pop', 'rock', 'chillout', 'off'],
-      difficulty: ['easy', 'normal', 'hard', 'nightmare'],
-    };
+  constructor() {
+    this.defaultSettings = new Map(
+      [['theme', 'dark'], ['music', 'trance'], ['difficulty', 'easy']],
+    );
     this.userSettings = new Map();
-    this.userSettings.set('theme', theme);
-    this.userSettings.set('music', music);
-    this.userSettings.set('difficulty', difficulty);
-    this.defaultSettings = DefSet;
   }
 
-  settings() {
-    
+  set(name, value) {
+    this.userSettings.set(name, value);
+  }
+
+  get userSettings() {
+    if (this.userSettings.size === 0) {
+      return this.defaultSettings;
+    }
+    const actualSettings = new Map(this.defaultSettings);
+    for (const [key, value] of actualSettings) {
+      if (this.userSettings.has(key)) {
+        actualSettings.set(key, value);
+      }
+    }
+    return actualSettings;
   }
 }
