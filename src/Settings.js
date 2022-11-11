@@ -10,14 +10,15 @@ export default class Settings {
     this.userSettings.set(name, value);
   }
 
-  get userSettings() {
+  get Settings() {
     if (this.userSettings.size === 0) {
       return this.defaultSettings;
     }
     const actualSettings = new Map(this.defaultSettings);
-    for (const [key, value] of actualSettings) {
+    for (const key of actualSettings) {
       if (this.userSettings.has(key)) {
-        actualSettings.set(key, value);
+        actualSettings.delete(key);
+        actualSettings.set(key, this.userSettings.get(key));
       }
     }
     return actualSettings;
