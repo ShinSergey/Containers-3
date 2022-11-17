@@ -15,8 +15,8 @@ export default class Settings {
       return this.defaultSettings;
     }
     const actualSettings = new Map(this.defaultSettings);
-    for (const key of actualSettings) {
-      if (this.userSettings.has(key)) {
+    for (const key of actualSettings.keys()) {
+      if (this.userSettings.has(key) && this.userSettings.get(key) !== actualSettings.get(key)) {
         actualSettings.delete(key);
         actualSettings.set(key, this.userSettings.get(key));
       }
